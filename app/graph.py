@@ -1,5 +1,5 @@
 from altair import Chart, Tooltip
-from pandas import DataFrame
+from pandas.core.frame import DataFrame
 
 
 def chart(df: DataFrame, x: str, y: str, target: str) -> Chart:

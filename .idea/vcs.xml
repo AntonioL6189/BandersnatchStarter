@@ -3,5 +3,6 @@
   <component name="VcsDirectoryMappings">
     <mapping directory="" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/fortuna-bin-win64" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/../PycharmProjects/pythonProject/BandersnatchStarter" vcs="" />
   </component>
 </project>

@@ -1,33 +1,29 @@
+import datetime
 import joblib
+from pandas import DataFrame
 from sklearn.ensemble import RandomForestClassifier
-from pymongo import MongoClient
 
 
 class Machine:
-    def __init__(self, collection: str):
-        client = MongoClient('localhost', 27017)
-        self.database = client['Database']
-        self.collection = self.database[collection]
+    def __init__(self, df):
+        self.name = "Random Forest Classifier"
+        target = df["Rarity"]
+        features = df.drop(columns=["Rarity"])
         self.model = RandomForestClassifier()
+        self.model.fit(features, target)
 
-    def __call__(self, feature_data):
-        predictions = self.model.predict(feature_data)
-        return predictions
-
-    def train(self, x_train, y_train):
-        self.model.fit(x_train, y_train)
-
-    def predict(self, feature_data):
-        predictions = self.model.predict(feature_data)
-        return predictions
+    def __call__(self, pred_basis: DataFrame):
+        predictions, *_ = self.model.predict(pred_basis)
+        probability, *_ = self.model.predict_proba(pred_basis)
+        return predictions, max(probability)
 
     def save(self, filepath):
         joblib.dump(self.model, filepath)
 
     @staticmethod
-    def load(filepath):
+    def open(filepath):
         return joblib.load(filepath)
 
     def info(self):
-        print("Model Information:")
-        print(self.model)
+        return f"basemodel:{self.name} <br> timestamp:{datetime.datetime.now()}"
+
